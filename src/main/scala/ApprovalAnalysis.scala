@@ -8,7 +8,7 @@ import java.text.NumberFormat
 import java.io.File
 
 case class Approval(startDate: String, pop: String, approval: Double, disapprove: Double)
-case class Tweet(text: String, date: String, favorites: Int, retweets: Int)
+case class Tweet(text: String, date: String, favorites: Int, retweets: Int, id: String)
 object ApprovalAnalysis {
 
   def main(args: Array[String]): Unit = {
@@ -26,7 +26,7 @@ object ApprovalAnalysis {
 
     val (approvals, tweets) = formatDates(obamaApproval, obamaTweets)
     val (tApprovals, tTweets) = formatDates(trumpApproval, trumpTweets)
-    //compareObama(approvals, tweets)
+    //compareApprovalTweets(approvals, tweets)
     comparePopulation(approvals, tweets)
     //comparePopulation(tApprovals, tTweets)
 
@@ -77,7 +77,8 @@ object ApprovalAnalysis {
               case "" => 0
               case _ => c.toInt
             }
-          })
+          },
+          x.getOrElse("Tweet ID", "NULL"))
       })
     sc.parallelize(li)
   }
@@ -91,12 +92,12 @@ object ApprovalAnalysis {
     val t =  tweets.map(x => {
       val split = x.date.split(" ")(0).split("-")
       Tweet(x.text, split(0),
-        x.favorites, x.retweets)
+        x.favorites, x.retweets, x.id)
     })
     (a, t)
   }
 
-  def compareObama(approvals: RDD[Approval], tweets: RDD[Tweet]): Unit = {
+  def compareApprovalTweets(approvals: RDD[Approval], tweets: RDD[Tweet]): Unit = {
     val a = approvals
       .keyBy(_.startDate)
       .join(tweets.keyBy(_.date))
@@ -128,7 +129,5 @@ object ApprovalAnalysis {
 
     averageByPop.collect().foreach(println)
   }
-
-
 
 }
