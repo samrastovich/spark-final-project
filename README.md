@@ -27,8 +27,12 @@ Sets of positive and negative words used for analysis
 This spark file takes a deeper look into the comparison between the tweets 
 and the approval ratings per president.  
 
-For Obama we took a look at the average approval rating per year, compared to the 
-average like count per tweet. We wanted to see if there was a correlation between the two.
+For each president we took a thorough look at approval ratings and the population of the 
+participants in the survey. We compared the population of the participants to the
+approval and disapproval ratings (Republicans, Democrats, Independents).   
+
+We also took a look at each president's trend in approval ratings over the number 
+of likes they received per tweet per year. 
 
 ####Trump Analysis
 This spark file counts the number of positive and negative words used in a single tweet

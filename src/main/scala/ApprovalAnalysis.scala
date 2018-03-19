@@ -20,8 +20,15 @@ object ApprovalAnalysis {
 
     val obamaApproval = readApproval("datasets/approval_ratings/obama.csv", sc)
     val obamaTweets = readTweets("datasets/obama/obama_tweets.csv", sc)
+
+    val trumpApproval = readApproval("datasets/approval_ratings/trump.csv", sc)
+    val trumpTweets = readTweets("datasets/trump/trump_tweets.csv", sc)
+
     val (approvals, tweets) = formatDates(obamaApproval, obamaTweets)
-    compare(approvals, tweets)
+    val (tApprovals, tTweets) = formatDates(trumpApproval, trumpTweets)
+    //compareObama(approvals, tweets)
+    comparePopulation(approvals, tweets)
+    //comparePopulation(tApprovals, tTweets)
 
   }
 
@@ -89,7 +96,7 @@ object ApprovalAnalysis {
     (a, t)
   }
 
-  def compare(approvals: RDD[Approval], tweets: RDD[Tweet]): Unit = {
+  def compareObama(approvals: RDD[Approval], tweets: RDD[Tweet]): Unit = {
     val a = approvals
       .keyBy(_.startDate)
       .join(tweets.keyBy(_.date))
@@ -103,8 +110,25 @@ object ApprovalAnalysis {
       (x._1, (formatter.format(x._2._2._1 / x._2._1), formatter.format(x._2._2._2 / x._2._1)))
     })
 
-
-    a.collect().foreach(println)
+    fin.collect().foreach(println)
   }
+
+  def comparePopulation(approvals: RDD[Approval], tweet: RDD[Tweet]): Unit = {
+    val a = approvals
+      .keyBy(x => (x.pop, x.startDate))
+      .aggregateByKey((0, (0.0, 0.0)))(
+        (accum, vals) => (accum._1 + 1, (accum._2._1 + vals.approval, accum._2._2 + vals.disapprove)),
+        (accum1, accum2) => (accum1._1 + accum2._1, (accum1._2._1 + accum2._2._1, accum1._2._2 + accum2._2._2))
+      )
+    val formatter = NumberFormat.getInstance()
+
+    val averageByPop = a.mapValues(x => {
+      (formatter.format(x._2._1 / x._1), formatter.format(x._2._2 / x._1))
+    })
+
+    averageByPop.collect().foreach(println)
+  }
+
+
 
 }
