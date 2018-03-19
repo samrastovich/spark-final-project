@@ -1,7 +1,7 @@
 # spark-final-project
 **Members**:  
-Sam Rastovich  
-Nick Gatehouse  
+Nick Gatehouse 
+Sam Rastovich   
 Daniel Kim
 
 ##Overview
@@ -30,12 +30,42 @@ and the approval ratings per president.
 For Obama we took a look at the average approval rating per year, compared to the 
 average like count per tweet. We wanted to see if there was a correlation between the two.
 
-####Trump Analysis
+####Semantic Analysis of Trump then Obama Tweets
 This spark file counts the number of positive and negative words used in a single tweet
 then compares the sum and either classifies the tweet as negative, positive, or neutral
 with these 3 classifications we display: 
 total tweets, average favorites, total favorites, average retweets, total retweets
 
-For Trump we found most of his tweets were negative but on average people liked positivity more
+Positive.txt has 2,000 words where Negative.txt has 4,700 so there is a slight skew towards negative words.
 
-for Obama ... 
+*Source*: https://github.com/jeffreybreen/twitter-sentiment-analysis-tutorial-201107/tree/master/data/opinion-lexicon-English
+
+#####Trump
+We found most of his tweets were negative but on average people liked positivity more
+
+*Total Negative Tweets: 14001*
+- Average Favorites: 3082.58, Total Favorites: 4.3159204E7
+- Average Retweets: 1131.11 Total Retweets: 1.5836683E7
+
+*Total Positive Tweets: 4980*
+- Average Favorites: 5007.9, Total Favorites: 2.4939321E7
+- Average Retweets: 2052.67, Total Retweets: 1.0222288E7
+
+*Total Neutral Tweets: 12194*
+- Average Favorites: 2513.94, Total Favorites: 3.0655019E7
+- Average Retweets: 1073.44, Total Retweets: 1.3089489E7
+
+#####Obama  
+We found most of his tweets were neutral tweets and on average people liked those tweets the most. 
+
+*Total Negative Tweets: 2398*
+- Average Favorites: 2836.74, Total Favorites: 6802507 
+- Average Retweets: 1779.23 Total Retweets: 4266601
+
+*Total Positive Tweets: 724*
+- Average Favorites: 2804.9, Total Favorites: 2030745
+- Average Retweets: 1542.6, Total Retweets: 1116844
+
+*Total Neutral Tweets: 3612*
+- Average Favorites: 2907.86, Total Favorites: 1.0503189E7
+- Average Retweets: 2119.99, Total Retweets: 7657401
