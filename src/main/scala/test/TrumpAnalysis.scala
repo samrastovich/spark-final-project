@@ -30,7 +30,7 @@ object TrumpAnalysis {
         x.getOrElse("Favorites", "NULL"),
         x.getOrElse("Retweets", "NULL"),
         x.getOrElse("Tweet ID", "NULL"))))
-    
+
     tweets.map(x => {
       val twee = x.text.split(" ").map(x => x.toLowerCase()).toList
       val posNeg = findNegAndPos(twee, negativeWords, positiveWords)
