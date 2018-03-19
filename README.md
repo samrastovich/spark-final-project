@@ -34,6 +34,16 @@ approval and disapproval ratings (Republicans, Democrats, Independents).
 We also took a look at each president's trend in approval ratings over the number 
 of likes they received per tweet per year. 
 
+#### Obama Approval Analysis
+Rather than looking for a relationship between Twitter likes
+and retweets, this analysis takes a look at the relationship between the survey organization's political affiliations,
+time of presidency (year), and approval/disapproval ratings.
+
+This analysis was created by filtering all survey results by the survey organization's political affiliations,
+aggregating the results of the surveys by the date, and then sorting by date.
+
+Although we would have liked to have performed this analysis on the Trump administration, there is insufficient data.
+
 #### Semantic Analysis of Trump then Obama Tweets
 This spark file counts the number of positive and negative words used in a single tweet
 then compares the sum and either classifies the tweet as negative, positive, or neutral
