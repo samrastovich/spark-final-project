@@ -83,3 +83,9 @@ We found most of his tweets were neutral tweets and on average people liked thos
 *Total Neutral Tweets: 3612*
 - Average Favorites: 2907.86, Total Favorites: 1.0503189E7
 - Average Retweets: 2119.99, Total Retweets: 7657401
+
+#### Time Of Day Analysis
+This was just a simple analysis to find out what time of day most of each president's tweets were published.
+Trump has an overwhelmingly large dataset than Obama, so the data may be more accurate for Trump.
+
+These tweets do not include retweets and are purely original tweets.

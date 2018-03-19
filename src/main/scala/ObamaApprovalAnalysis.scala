@@ -90,31 +90,6 @@ object ObamaApprovalAnalysis {
 //      )
 
 
-//    case class Tweet(msg: String, date: String, favs: String, retweets: String)
-//
-//    println("---- OBAMA TWEETS ----")
-//    val tweetsObama = sc.parallelize(readerObama.allWithHeaders()
-//      .map(x=>Tweet(x("Text"),
-//        x("Date").split(" ")(0),
-//        x("Favorites"),
-//        x("Retweets"))))
-//      .sortBy(x=>x.favs.toInt, false)
-//      .collect()
-//      .take(10)
-//      .foreach(println)
-//    readerObama.close()
-//    println("---- TRUMP TWEETS ----")
-//    val readerTrump = CSVReader.open(new File(tweets_2));
-//    val tweetsTrump = sc.parallelize(readerTrump.allWithHeaders()
-//      .map(x=>Tweet(x("Text"),
-//        x("Date").split(" ")(0),
-//        x("Favorites"),
-//        x("Retweets"))))
-//      .sortBy(x=>x.favs.toInt, false)
-//      .collect()
-//      .take(10)
-//      .foreach(println)
-//    readerTrump.close()
 
 
 
