@@ -4,26 +4,26 @@ Nick Gatehouse
 Sam Rastovich   
 Daniel Kim
 
-##Overview
+## Overview
 This project takes a look at the datasets of President Barack Obama
 and President Donal Trump's tweet history and approval ratings. A thorough
 analysis was completed on each one. 
 
-###Datasets
-####approval_ratings
+### Datasets
+#### approval_ratings
 These datasets are the approval ratings of Obama and Trump, respectively
 
-####obama
+#### obama
 Obama's tweet history
 
-####trump
+#### trump
 Trump's tweet history
 
-####opinon-words
+#### opinon-words
 Sets of positive and negative words used for analysis
 
-###Analysis
-####Approval Analysis
+### Analysis
+#### Approval Analysis
 This spark file takes a deeper look into the comparison between the tweets 
 and the approval ratings per president.  
 
@@ -34,7 +34,7 @@ approval and disapproval ratings (Republicans, Democrats, Independents).
 We also took a look at each president's trend in approval ratings over the number 
 of likes they received per tweet per year. 
 
-####Semantic Analysis of Trump then Obama Tweets
+#### Semantic Analysis of Trump then Obama Tweets
 This spark file counts the number of positive and negative words used in a single tweet
 then compares the sum and either classifies the tweet as negative, positive, or neutral
 with these 3 classifications we display: 
@@ -44,7 +44,7 @@ Positive.txt has 2,000 words where Negative.txt has 4,700 so there is a slight s
 
 *Source*: https://github.com/jeffreybreen/twitter-sentiment-analysis-tutorial-201107/tree/master/data/opinion-lexicon-English
 
-#####Trump
+##### Trump
 We found most of his tweets were negative but on average people liked positivity more
 
 *Total Negative Tweets: 14001*
@@ -59,7 +59,7 @@ We found most of his tweets were negative but on average people liked positivity
 - Average Favorites: 2513.94, Total Favorites: 3.0655019E7
 - Average Retweets: 1073.44, Total Retweets: 1.3089489E7
 
-#####Obama  
+##### Obama  
 We found most of his tweets were neutral tweets and on average people liked those tweets the most. 
 
 *Total Negative Tweets: 2398*
