@@ -4,10 +4,11 @@ import org.apache.log4j.{Level, Logger}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
+import java.text.NumberFormat
 import java.io.File
 
-case class Approval(startDate: String, pop: String, approval: String, disapprove: String)
-case class Tweet(text: String, date: String, favorites: String, retweets: String)
+case class Approval(startDate: String, pop: String, approval: Double, disapprove: Double)
+case class Tweet(text: String, date: String, favorites: Int, retweets: Int)
 object ApprovalAnalysis {
 
   def main(args: Array[String]): Unit = {
@@ -20,7 +21,7 @@ object ApprovalAnalysis {
     val obamaApproval = readApproval("datasets/approval_ratings/obama.csv", sc)
     val obamaTweets = readTweets("datasets/obama/obama_tweets.csv", sc)
     val (approvals, tweets) = formatDates(obamaApproval, obamaTweets)
-    tweets.collect().foreach(println)
+    compare(approvals, tweets)
 
   }
 
@@ -31,8 +32,20 @@ object ApprovalAnalysis {
       .map(x => {
         Approval(x.getOrElse("start_date", "NULL"),
           x.getOrElse("survey_population", "NULL"),
-          x.getOrElse("approve_percent", "NULL"),
-          x.getOrElse("disapprove_percent", "NULL"))
+          x.get("approve_percent") match {
+            case None => 0.0
+            case Some(c) => c match {
+              case "" => 0.0
+              case _ => c.toDouble
+            }
+          },
+          x.get("disapprove_percent") match {
+            case None => 0.0
+            case Some(c) => c match {
+              case "" => 0.0
+              case _ => c.toDouble
+            }
+          })
       })
     sc.parallelize(li)
   }
@@ -44,8 +57,20 @@ object ApprovalAnalysis {
       .map(x => {
         Tweet(x.getOrElse("Text", "NULL"),
           x.getOrElse("Date", "NULL"),
-          x.getOrElse("Favorites", "NULL"),
-          x.getOrElse("Retweets", "NULL"))
+          x.get("Favorites") match {
+            case None => 0
+            case Some(c) => c match {
+              case "" => 0
+              case _ => c.toInt
+            }
+          },
+          x.get("Retweets") match {
+            case None => 0
+            case Some(c) => c match {
+              case "" => 0
+              case _ => c.toInt
+            }
+          })
       })
     sc.parallelize(li)
   }
@@ -53,12 +78,12 @@ object ApprovalAnalysis {
   def formatDates(approvals: RDD[Approval], tweets: RDD[Tweet]): (RDD[Approval], RDD[Tweet]) = {
     val a = approvals.map(x => {
       val split = x.startDate.split(" ")(0).split("-")
-      Approval(split(0) + "-" + split(1),
+      Approval(split(0),
         x.pop, x.approval, x.disapprove)
     })
     val t =  tweets.map(x => {
       val split = x.date.split(" ")(0).split("-")
-      Tweet(x.text, split(0) + "-" + split(1),
+      Tweet(x.text, split(0),
         x.favorites, x.retweets)
     })
     (a, t)
@@ -67,7 +92,19 @@ object ApprovalAnalysis {
   def compare(approvals: RDD[Approval], tweets: RDD[Tweet]): Unit = {
     val a = approvals
       .keyBy(_.startDate)
+      .join(tweets.keyBy(_.date))
+      .aggregateByKey((0, (0.0, 0.0)))(
+        (accum, vals) => (accum._1 + 1, (accum._2._1 + vals._1.approval, accum._2._2 + vals._2.favorites)),
+        (accum1, accum2) => (accum1._1 + accum2._1, (accum1._2._1 + accum2._2._1, accum1._2._2 + accum2._2._2))
+      )
+    val formatter = NumberFormat.getInstance()
 
+    val fin = a.map(x => {
+      (x._1, (formatter.format(x._2._2._1 / x._2._1), formatter.format(x._2._2._2 / x._2._1)))
+    })
+
+
+    a.collect().foreach(println)
   }
 
 }
